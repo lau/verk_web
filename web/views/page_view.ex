@@ -25,8 +25,13 @@ defmodule VerkWeb.PageView do
   end
 
   def uptime do
-    {time, _} = :erlang.statistics(:wall_clock)
-    Timex.Duration.from_milliseconds(time) |> Timex.format_duration(:humanized)
+    {milliseconds, _} = :erlang.statistics(:wall_clock)
+    milliseconds |> format_uptime_milliseconds
+  end
+
+  defp format_uptime_milliseconds(milliseconds) do
+    seconds = milliseconds / 1000
+    "#{seconds} seconds"
   end
 
   def process_count, do: :erlang.system_info(:process_count)
